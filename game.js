@@ -15,3 +15,39 @@ var game = {
         game.context = game.canvas.getContext('2d');
     },
 }
+
+var levels = {
+    // Nivel de datos
+    data:[
+        { // Primer nivel
+            foreground: 'desert-foreground',
+            background: 'clouds-background',
+            entities:[]
+        },
+        { // Segundo nivel
+            foreground: 'desert-foreground',
+            background: 'clouds-background',
+            entities:[]
+        }
+    ],
+    // Inicializa la pantalla de selección de nivel
+    init:function(){
+        var html = "";
+        for (var i=0; i < levels.data.length; i++){
+            var level = levels.data[i];
+            html += '<input type="button" value="'+(i+1)+'">';
+        };
+        $('#levelselectscreen').html(html);
+        
+        // Establece los controladores de eventos de clic de botón para cargar el nivel
+        $('#levelselectscreen input').click(function(){
+            levels.load(this.value-1);
+            $('#levelselectscreen').hide();
+        });
+    },
+
+    // carga todos los datos e imágenes para un nivel específico
+    load:function(number){
+
+    }
+}
