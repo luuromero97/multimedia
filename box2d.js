@@ -29,6 +29,10 @@ function init(){
 	createComplexBody();
 	//Unir dos cuerpos mediante una articulación (revolute joint)
 	createRevoluteJoint();
+	//Crear un cuerpo con datos especiales del usuario
+	createSpecialBody();
+	//Crear contact listeners y registrar los eventos
+	listenForContact();
 
 	setupDebugDraw();
 	animate();
@@ -45,6 +49,18 @@ function animate(){
 	world.ClearForces();
 
 	world.DrawDebugData();
+
+	//Dibujo personalizado
+	if (specialBody){
+		drawSpecialBody();
+	}
+
+	//Matar Special Body si muere
+	if (specialBody && specialBody.GetUserData().life<=0){
+		world.DestroyBody(specialBody);
+		specialBody = undefined;
+		console.log("The special body was destroyed");
+	}
 
 	setTimeout(animate, timeStep);
 }
@@ -231,7 +247,78 @@ function createRevoluteJoint(){
 	var jointCenter = new b2Vec2(470/scale, 50/scale);
 
 	jointDef.Initialize(body1, body2, jointCenter);
-	world.CreateJoint(jointDef);
-
-
+	world.CreateJoint(jointDef);	
 }
+
+var specialBody;
+function createSpecialBody(){
+	var bodyDef = new b2BodyDef;
+	bodyDef.type = b2Body.b2_dynamicBody;
+	bodyDef.position.x = 450/scale;
+	bodyDef.position.y = 0/scale;
+
+	specialBody = world.CreateBody(bodyDef);
+	specialBody.SetUserData({name:"special",life:250})
+
+	//Crear un accesorio para unir una forma circular al cuerpo
+	var fixtureDef = new b2FixtureDef;
+	fixtureDef.density = 1.0;
+	fixtureDef.friction = 0.5;
+	fixtureDef.restitution = 0.5;
+
+	fixtureDef.shape = new b2CircleShape(30/scale);
+
+	var fixture = specialBody.CreateFixture(fixtureDef);
+}
+
+function listenForContact(){
+	var listener = new Box2D.Dynamics.b2ContactListener;
+	listener.PostSolve = function(contact, impulse){
+		var body1 = contact.GetFixtureA().GetBody();
+		var body2 = contact.GetFixtureB().GetBody();
+
+		// Si cualquiera de los cuerpos es el special body, reduzca su vida
+		if(body1 == specialBody || body2 == specialBody){
+			var impulseAlongNormal = impulse.normalImpulses[0];
+			specialBody.GetUserData().life -= impulseAlongNormal;
+			console.log("The special body was in a colision with impulse", impulseAlongNormal, "and its life has now become ", specialBody.GetUserData().life);
+		}
+	};
+	world.SetContactListener(listener);
+}
+
+function drawSpecialBody(){
+	//Obtener la posición y el ángulo del cuerpo
+	var position = specialBody.GetPosition();
+	var angle = specialBody.GetAngle();
+		
+	//Transladar y girar el eje a la posición y al ángulo del cuerpo
+	context.translate(position.x*scale, position.y*scale);
+	context.rotate(angle);
+
+	//Dibuja una cara circular llena
+	context.fillStyle = "rgb(200,150,250);";
+	context.beginPath();
+	context.arc(0,0,30,0,2*Math.PI,false);
+	context.fill();
+
+	//Dibujar dos ojos rectangulares
+	context.fillStyle = "rgb(255,255,255);";
+	context.fillRect(-15,-15,10,5);
+	context.fillRect(5,-15,10,5);
+
+	//Dibujar un arco hacia arriba o hacia abajo para una sonrisa dependiendo de la vida
+	context.strokeStyle = "rgb(255,255,255);";
+	context.beginPath();
+	if (specialBody.GetUserData().life>100){
+		context.arc(0,0,10,Math.PI,2*Math.PI,true)
+	} else {
+		context.arc(0,10,10,Math.PI,2*Math.PI,false);
+	}
+	context.stroke();
+
+	//Transladar y girar el eje de nuevo a la posición original y el ángulo
+	context.rotate(-angle);
+	context.translate(-position.x*scale,-position.y*scale);
+}
+
