@@ -304,3 +304,145 @@ var mouse = {
 		mouse.dragging = false;
 	}
 }
+
+var entities = {
+    definitions:{
+        "glass":{
+            fullHealth:100,
+            density:2.4,
+            friction:0.4,
+            restitution:0.15,
+        },
+        "wood":{
+            fullHealth:500,
+            density:0.7,
+            friction:0.4,
+            restitution:0.4,
+        },
+        "dirt":{
+            density:3.0,
+            friction:1.5,
+            restitution:0.2,
+        },
+        "burger":{
+            shape:"circle",
+            fullHealth:40,
+            radius:25,
+            density:1,
+            friction:0.5,
+            restitution:0.4,
+        },
+        "sodacan":{
+            fullHealth:500,
+            density:0.7,
+            friction:0.4,
+            restitution:0.4,
+        },
+        "fries":{
+            shape:"rectangle",
+            fullHealth:50,
+            width:40,
+            height:50,
+            density:1,
+            friction:0.5,
+            restitution:0.6,
+        },
+        "apple":{
+            shape:"circle",
+            radius:25,
+            density:1.5,
+            friction:0.5,
+            restitution:0.4,
+        },
+        "orange":{
+            shape:"circle",
+            radius:25,
+            density:1.5,
+            friction:0.5,
+            restitution:0.4,
+        },
+        "strawberry":{
+            shape:"circle",
+            radius:15,
+            density:2.0,
+            friction:0.5,
+            restitution:0.4,
+        }
+    },
+//Tomar la entidad, crear un cuerpo Box2D y añadirlo al mundo
+create:function(entity){
+
+},
+
+//Tomar la entidad, su posición y su ángulo y dibujarlo en el canvas del juego
+draw:function(entity, position, angle){
+
+}
+}
+
+var box2d = {
+    scale:30,
+    init:function(){
+        //Configurar el mundo de box2d que hará la mayoría de ellos cálculo de física
+        var gravity = new b2Vec2(0,9.8); //Declara la gravedad como 9.8 m / s ^ 2 hacia abajo
+        var allowSleep = true; //Permitir que los objetos que están en reposo se queden dormidos y se excluyan de los cálculos
+        box2d.world = new b2World(gravity, allowSleep);
+
+        createRectangle:function(entity,definition){
+            var bodyDef = new b2BodyDef;
+            if(entity.isStatic){
+                bodyDef.type = b2Body.b2_staticBody;
+            } else {
+                bodyDef.type = b2Body.b2_dinamicBody;
+            }
+
+            bodyDef.position.x = entity.x/box2d.scale;
+            bodyDef.position.y = entity.y/box2d.scale;
+            if (entity.angle) {
+                bodyDef.angle = Math.PI*entity.angle/180;
+            }
+
+            var fixtureDef = new b2FixtureDef;
+            fixtureDef.density = definition.density;
+            fixtureDef.friction = definition.friction;
+            fixtureDef.restitution = definition.restitution;
+
+            fixtureDef.shape = new b2PolygonShape;
+            fixtureDef.shape.SetAsBox(entity.width/2/box2d.scale,entity.height/2/box2d.scale);
+
+            var body = box2d.world.CreateBody(bodyDef);
+            body.SetUserData(entity);
+
+            var fixture = body.CreateFixture(fixtureDef);
+            return body;
+        };
+
+        createCircle: function(entity,definition){
+            var bodyDef = new b2BodyDef;
+            if(entity.isStatic){
+                bodyDef.type = b2Body.b2_staticBody;
+            } else {
+                bodyDef.type = b2Body.b2_dinamicBody;
+            }
+
+            bodyDef.position.x = entity.x/box2d.scale;
+            bodyDef.position.y = entity.y/box2d.scale;
+
+            if(entity.angle){
+                bodyDef.angle = Math.PI*entity.angle/180;
+            }
+            var fixtureDef = new b2FixtureDef;
+            fixtureDef.density = definition.density;
+            fixtureDef.friction = definition.friction;
+            fixtureDef.restitution = definition.restitution;
+
+            fixtureDef.shape = new b2CircleShape(entity.radius/box2d.scale);
+
+            var body = box2d.world.CreateBody(bodyDef);
+            body.SetUserData(entity);
+            
+            var fixture = body.CreateFixture(fixtureDef);
+            return body;
+        }
+    }
+}
