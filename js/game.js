@@ -35,6 +35,7 @@ var game = {
     	//Incializar objetos
     	levels.init();
         loader.init(); //NO SALE PANTALLA DE CARGA? DIAPO 28 MUNDOBASICO
+        mouse.init();
 
         // Ocultar todas las capas del juego y mostrar la pantalla de inicio
         $('.gamelayer').hide();
@@ -55,6 +56,7 @@ var game = {
     // Coordenadas X & Y de la honda
     slingshotX:140,
     slingshotY:280,
+
     start:function(){
         $('.gamelayer').hide();
         // Mostrar el canvas del juego y la puntuación
@@ -67,9 +69,72 @@ var game = {
         game.animationFrame = window.requestAnimationFrame(game.animate, game.canvas);
     },
 
+    //Velocidad máxima de panoramización por fotograma en píxeles
+    maxSpeed: 3,
+    //Mínimo y Máximo desplazamiento panorámico
+    minOffset: 0,
+    maxOffset: 300,
+    //Desplazamiento de panorámica actual
+    offsetLeft: 0,
+    //La puntuación del juego
+    score: 0,
+
+    //Desplegar la pantalla para centrarse en newCenter
+    panTo:function(newCenter){
+    	if(Math.abs(newCenter-game.offsetLeft-game.canvas.width/4) > 0 
+    		&& game.offsetLeft <= game.maxOffset && game.offsetLeft >= game.minOffset){
+
+    		var deltaX = Math.round((newCenter-game.offsetLeft-game.canvas.width/4)/2);
+    		if(deltaX && Math.abs(deltaX)>game.maxSpeed){
+    			deltaX = game.maxSpeed*Math.abs(deltaX)/(deltaX);
+    		}
+    		game.offsetLeft += deltaX;
+    	}else{
+    		return true;
+    	}
+    	if(game.offsetLeft < game.minOffset){
+    		game.offsetLeft = game.minOffset;
+    		return true;
+    	}else if (game.offsetLeft > game.maxOffset){
+    		game.offsetLeft = game.maxOffset;
+    		return true;
+    	}
+    	return false;
+    },
+
     handlePanning: function(){
-        game.offsetLeft++; // Marcador de posición temporal - mantiene la panorámica a la derecha
-    }, // DENTRO O FUERA DEL GAME??
+        if(game.mode=="intro"){
+        	if(game.panTo(700)){
+        		game.mode = "load-next-hero";
+        	}
+        }
+
+        if(game.mode == "wait-for-firing"){
+        	if(mouse.dragging){
+        		game.panTo(mouse.x + game.offsetLeft)
+        	}else{
+        		game.panTo(game.slingshotX);
+        	}
+        }
+
+        if(game.mode == "load-next-hero"){
+        	//TODO:
+        	//Comprobar si algún villano está vivo, si no, terminar el nivel (éxito)
+        	//Comproobar si quedan más heroes para cargar, si no, terminar el nivel (fallo)
+        	//Cargar el héroe y fijar a modo de espera para disparar
+        	game.mode="wait-for-fairing";
+        }
+
+        if(game.mode == "firing"){
+        	game.panTo(game.slingshotX);
+        }
+
+        if(game.mode == "fired"){
+        	//TODO:
+        	//Hacer una panorámica donde quiera que el héroe se encuentre actualmente
+        }
+
+    },
     
     animate: function(){
         // Anima el fondo
@@ -83,8 +148,6 @@ var game = {
 
         // Dibuja la honda
         game.context.drawImage(game.slingshotImage,game.slingshotX-game.offsetLeft,game.slingshotY);
-
-        game.context.drawImage(game.slingshotFrontImage,game.slingshotX-game.offsetLeft,game.slingshotY);
 
         if (!game.ended){
             game.animationFrame = window.requestAnimationFrame(game.animate,game.canvas);
@@ -208,4 +271,36 @@ var loader = {
             }
         }
     }
+}
+
+var mouse = {
+	x: 0,
+	y: 0,
+	down: false,
+	init: function(){
+		$('#gamecanvas').mousemove(mouse.mousemovehandler);
+		$('#gamecanvas').mousedown(mouse.mousedownhandler);
+		$('#gamecanvas').mouseup(mouse.mouseuphandler);
+		$('#gamecanvas').mouseout(mouse.mouseuphandler);
+	},
+	mousemovehandler:function(ev){
+		var offset = $('#gamecanvas').offset();
+
+		mouse.x = ev.pageX - offset.left;
+		mouse.y = ev.PageY - offset.top;
+
+		if(mouse.down){
+			mouse.dragging = true;
+		}
+	},
+	mousedownhandler:function(ev){
+		mouse.down = true;
+		mouse.downX = mouse.x;
+		mouse.downY = mouse.y;
+		ev.originalEvent.preventDefault();
+	},
+	mouseuphandler:function(ev){
+		mouse.down = false;
+		mouse.dragging = false;
+	}
 }
