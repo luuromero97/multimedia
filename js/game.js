@@ -140,7 +140,14 @@ var game = {
         // Anima el fondo
         game.handlePanning();
 
-        // Anima los personajes
+        //Animar los personajes
+            var currentTime = new Date().getTime();
+            var timeStep;
+            if(game.lastUpdateTime){
+                timeStep = (currentTime - game.lastUpdateTime)/1000;
+                box2d.step(timeStep);
+            }
+            game.lastUpdateTime = currentTime;
 
         // Dibuja el fondo con desplazamiento (parallax scrolling)
         game.context.drawImage(game.currentLevel.backgroundImage, game.offsetLeft/4,0,640,480,0,0,640,480);
@@ -149,8 +156,105 @@ var game = {
         // Dibuja la honda
         game.context.drawImage(game.slingshotImage,game.slingshotX-game.offsetLeft,game.slingshotY);
 
+        //Dibuja todos los cuerpos
+        game.drawAllBodies();
+
+        //Dibuja el fente de la onda
+        game.context.drawImage(game.slingshotFrontImage,game.slingshotX-game.offsetLeft,game.slingshotY);
+
         if (!game.ended){
             game.animationFrame = window.requestAnimationFrame(game.animate,game.canvas);
+        }
+    },
+
+    drawAllBodies:function(){
+        box2d.world.DrawDebugData();
+        // Iterar a través de todos los cuerpos y dibujarlos sobre el canvas del juego
+        for(var body = box2d.world.GetBodyList(); body; body = body.GetNext()){
+            var entity = body.GetUserData();
+
+            if(entity){
+                var entityX = body.GetPosition().x*box2d.scale;
+                if(entityX<0|| entityX>game.currentLevel.foregroundImage.width||(entity.health && entity.health<0)){
+                    box2d.world.DestroyBody(body);
+                    if(entity.type=="villain"){
+                        game.score += entity.calories;
+                        $('#score').html('Score: '+game.score);
+                    }
+                    if (entity.breakSound){
+                        entity.breakSound.play();
+                    } else {
+                        entities.draw(entity,body.GetPosition(),body.GetAngle())
+                    }
+                }
+            }
+        }
+    },
+
+    countHeroesAndVillains:function(){
+        game.heroes = [];
+        game.villains = [];
+        for(var body = box2d.world.GetBodyList(); body; body = body.GetNext()){
+            var entity = body.GetUserData();
+            if (entity){
+                if(entity.type == "hero"){
+                    game.heroes.push(body);
+                } else if (entity.type == "villain"){
+                    game.villains.push(body);
+                }
+            }
+        }
+    },
+
+    handlePanning:function(){
+        if(game.mode=="intro"){
+            if(game.panTo(700)){
+                game.mode = "load-next-hero";
+            }
+        }
+
+        if(game.mode=="wait-for-firing"){
+            game.panTo(game.slingshotX);
+        }
+
+        if(game.mode == "firing"){
+            game.panTo(game.slingshotX);
+        }
+
+        if(game.mode =="fired"){
+            // TODO:
+            //Vista panorámica donde el héroe se encuentra actualmente es...
+        }
+
+        if(game.mode =="load-next-hero"){
+            game.countHeroesAndVillains();
+        }
+
+        //Comprobar si algún villano está vivo, si no, termine el nivel (éxito)
+        if(game.villains.length==0){
+            game.mode="level-success";
+            return;
+        }
+
+        //Comprobar si hay más héroes para cargar, si no terminar el nivel (fallo)
+        if(game.heroes.length==0){
+            game.mode ="level-failure"
+            return;
+        }
+
+        //Cargar el héroe y establecer el modo de espera para disparar (wait-for-firing)
+        if(!game.currentHero){
+            game.currentHero = game.heroes[game.heroes.length-1];
+            game.currentHero.SetPosition({x:180/box2d.scale,y:200/box2d.scale});
+            game.currentHero.SetLinearVelocity({x:0,y:0});
+            game.currentHero.SetAngularVelocity(0);
+            game.currentHero.SetAwake(true);
+        } else {
+            //Espere a que el héroe deje de rebotar y se duerma y luego cambie a espera para disparar (wait-for-firing)
+            game.panTo(game.slingshotX);
+            if(!game.currentHero.IsAwake()){
+                game.mode = "wait-for-firing";
+            }
         }
     }
 }
@@ -162,12 +266,47 @@ var levels = {
         { // Primer nivel
             foreground: 'desert-foreground',
             background: 'clouds-background',
-            entities:[]
+            entities:[
+                {type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
+                {type:"ground", name:"wood", x:185,y:390,width:30,height:80,isStatic:true},
+
+                {type:"block", name:"wood", x:520,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"glass", x:520,y:280,angle:90,width:100,height:25},
+                {type:"villain", name:"burger", x:520,y:205,calories:590},
+
+                {type:"block", name:"wood", x:620,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"glass", x:620,y:280,angle:90,width:100,height:25},
+                {type:"villain", name:"wood", x:620,y:205,calories:420},
+
+                {type:"hero", name:"orange", x:80,y:405},
+                {type:"hero", name:"apple", x:140,y:405},
+            ]
         },
         { // Segundo nivel
             foreground: 'desert-foreground',
             background: 'clouds-background',
-            entities:[]
+            entities:[
+                {type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
+                {type:"ground", name:"wood", x:185,y:390,width:30,height:80,isStatic:true},
+
+                {type:"block", name:"wood", x:820,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"wood", x:720,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"wood", x:620,y:380,angle:90,width:100,height:25},
+                {type:"block", name:"glass", x:670,y:317.5,width:100,height:25},
+                {type:"block", name:"glass", x:770,y:317.5,width:100,height:25},
+
+                {type:"block", name:"glass", x:670,y:255,angle:90,width:100,height:25},
+                {type:"block", name:"glass", x:770,y:255,angle:90,width:100,height:25},
+                {type:"block", name:"wood", x:720,y:192.5,width:100,height:25},
+
+                {type:"villain", name:"burger", x:715,y:155,calories:590},
+                {type:"villain", name:"fries", x:670,y:405,calories:420},
+                {type:"villain", name:"sodacan", x:765,y:400,calories:150},
+
+                {type:"hero", name:"strawberry", x:30,y:415},
+                {type:"hero", name:"orange", x:80,y:405},
+                {type:"hero", name:"apple", x:140,y:405},
+            ]
         }
     ],
     // Inicializa la pantalla de selección de nivel
@@ -191,6 +330,9 @@ var levels = {
     // Cargar todos los datos e imágenes para un nivel específico
     load:function(number){
         
+        //Inicializar box2d world cada vez que se carga un nivel
+        box2d.init();
+
         // declarar un nuevo objeto de nivel actual
         game.currentLevel = {number:number,hero:[]};
         game.score=0;
@@ -202,6 +344,12 @@ var levels = {
         game.currentLevel.foregroundImage = loader.loadImage("images/backgrounds/"+level.foreground+".png");
         game.slingshotImage = loader.loadImage("images/slingshot.png");
         game.slingshotFrontImage = loader.loadImage("images/slingshot-front.png");
+
+        //Cargar todas las entidades
+        for(var i = level.entities.length - 1; i>=0; i--){
+            var entity = level.entities[i];
+            entities.create(entity);
+        }
 
         //Llamar a game.start() cuando los assets se hayan cargado
         if(loader.loaded){
@@ -415,7 +563,30 @@ create:function(entity){
 
 //Tomar la entidad, su posición y su ángulo y dibujarlo en el canvas del juego
 draw:function(entity, position, angle){
+    game.context.translate(position.x*box2d.scale-game.offsetLeft,position.y*box2d.scale);
+    game.context.rotate(angle);
+    switch(entity.type){
+        case "block":
+            game.context.drawImage(entity.sprite,0,0,entity.sprite.width,entity.sprite.height,
+                -entity.width/2-1,-entity.height/2-1,entityl.width+2,entity.height+2);
+        break;
+        case "villain":
+        case "hero":
+            if(entity.shape=="circle"){
+                game.context.drawImage(entity.sprite,0,0,entity.sprite.width,entity.sprite.height,
+                    -entity.radius-1,-entity.radius-1,entity.radius*2+2,entity.radius*2+2);
+            } else if (entity.shape=="rectangle"){
+                game.context.drawImage(entity.sprite,0,0,entity.sprite.width,entity.sprite.height,
+                    -entity.width/2-1,-entity.height/2-1,entity.width+2,entity.height+2);
+            }
+            break;
+        case "ground":
+            //No hacer nada... Vamos a dibujar objetos como el suelo y la honda por separado
+            break;
+    }
 
+    game.context.rotate(-angle);
+    game.context.translate(-position.x*box2d.scale+game.offsetLeft,-position.y*box2d.scale);
 }
 }
 
@@ -426,6 +597,17 @@ var box2d = {
         var gravity = new b2Vec2(0,9.8); //Declara la gravedad como 9.8 m / s ^ 2 hacia abajo
         var allowSleep = true; //Permitir que los objetos que están en reposo se queden dormidos y se excluyan de los cálculos
         box2d.world = new b2World(gravity, allowSleep);
+
+        //Configurar la depuración del dibujo
+        var debugContext = document.getElementById('debugcanvas').getContext('2d');
+        var debugDraw = new b2DebugDraw();
+        debugDraw.SetSprite(debugContext);
+        debugDraw.SetDrawScale(box2d.scale);
+        debugDraw.SetFillAlpha(0.3);
+        debugDraw.SetFillAlpha(1.0);
+        debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+        box2d.world.setupDebugDraw(debugDraw);
+    },
 
         createRectangle:function(entity,definition){
             var bodyDef = new b2BodyDef;
@@ -454,7 +636,7 @@ var box2d = {
 
             var fixture = body.CreateFixture(fixtureDef);
             return body;
-        };
+        },
 
         createCircle: function(entity,definition){
             var bodyDef = new b2BodyDef;
@@ -482,6 +664,14 @@ var box2d = {
             
             var fixture = body.CreateFixture(fixtureDef);
             return body;
+        },
+
+        step:function(timeStep){
+            //velocidad de las iteraciones = 8
+            //posición de las iteraciones = 3
+            if(timeStep > 2/60){
+                timeStep = 2/60
+            }
+            box2d.world.Step(timeStep,8,3);
         }
     }
-}
