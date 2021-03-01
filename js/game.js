@@ -371,7 +371,46 @@ var entities = {
     },
 //Tomar la entidad, crear un cuerpo Box2D y añadirlo al mundo
 create:function(entity){
-
+	var definition = entities.definitions[entity.name];
+	if(!definitions){
+		console.log("Undefined entity name", entity.name);
+		return;
+	}
+	switch(entity.type){
+		case "block": //Rectángulos simples
+			entity.health = definition.fullHealth;
+			entity.fullHealth = definition.fullHealth;
+			entity.shape = "rectangle";
+			entity.sprite = loader.loadImage("iimages/entities/"+entity.name+".png");
+			entity.breakSound = game.breakSound[entity.name];
+			box2d.createRectangle(entity.definition);
+			break;
+		case "ground": //Rectángulos simples
+			//No necesitan salud, son indestructibles
+			entity.shape = "rectangle";
+			//No hay necesidad de sprites. Estos no serán dibujados en absoluto.
+			box2d.createRectangle(entity.definition);
+			break;
+		case "hero": //Círculos simples
+		case "villain": //Pueden ser círculos o rectángulos
+			entity.health = definition.fullHealth;
+			entity.fullHealth = definition.fullHealth;
+			entity.sprite = loader.loadImage("images/entities/"+entity.name+".png");
+			entity.shape = definition.shape;
+			entity.bounceSound = game.bounceSound;
+			if(definition.shape == "circle"){
+				entity.radius = definition.radius;
+				box2d.createCircle(entity.definition);
+			} else if (definition.shape == "rectangle"){
+				entity.width = definition.width;
+				entity.height = definition.height;
+				box2d.createRectangle(entity.definition);
+			}
+			break;
+		default:
+			console.log("Undefined entity type", entity.type);
+			break;
+	}
 },
 
 //Tomar la entidad, su posición y su ángulo y dibujarlo en el canvas del juego
