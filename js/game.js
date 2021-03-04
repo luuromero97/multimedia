@@ -126,7 +126,7 @@ var game = {
 	
 
 	// Velocidad mÃ¡xima de panoramizaciÃ³n por fotograma en pÃ­xeles
-	maxSpeed:3,
+	maxSpeed:2,
 	// MÃ­nimo y MÃ¡ximo desplazamiento panorÃ¡mico
 	minOffset:0,
 	maxOffset:300,
@@ -182,13 +182,14 @@ var game = {
 		return (distanceSquared<= radiusSquared);	
 	},
 	handlePanning:function(){
-		   if(game.mode=="intro"){		
-			   if(game.panTo(700)){
-				   game.mode = "load-next-hero";
-			   }			 
-		   }	   
 
-		   if (game.mode=="wait-for-firing"){  
+	   	if(game.mode=="intro"){		
+		   if(game.panTo(700)){
+			   game.mode = "load-next-hero";
+		   }			 
+	   	}	   
+
+	   	if (game.mode=="wait-for-firing"){  
 			if (mouse.dragging){
 				if (game.mouseOnCurrentHero()){
 					game.mode = "firing";
@@ -218,18 +219,21 @@ var game = {
 			}
 		}
 
+		//Meter espera de 5 segundos para eliminar al héroe usado
+
 		if (game.mode == "fired"){		
 			//Vista panorÃ¡mica donde el hÃ©roe se encuentra actualmente...
 			var heroX = game.currentHero.GetPosition().x*box2d.scale;
 			game.panTo(heroX);
 
 			//Y esperar hasta que deja de moverse o estÃ¡ fuera de los lÃ­mites
-			if(!game.currentHero.IsAwake() || heroX<0 || heroX >game.currentLevel.foregroundImage.width ){
+			if(!game.currentHero.IsAwake() || heroX<0 || heroX >game.currentLevel.foregroundImage.width){
 				// Luego borra el viejo hÃ©roe
 				box2d.world.DestroyBody(game.currentHero);
 				game.currentHero = undefined;
 				// y carga el siguiente hÃ©roe
 				game.mode = "load-next-hero";
+				//Resetea el timeOut
 			}
 		}
 		
@@ -480,7 +484,7 @@ var levels = {
 		// Cargar todas la entidades
 		for (var i = level.entities.length - 1; i >= 0; i--){	
 			var entity = level.entities[i];
-			entities.create(entity);			
+			entities.create(entity);	
 		};
 
 		  //Llamar a game.start() una vez que los assets se hayan cargado
