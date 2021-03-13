@@ -56,6 +56,8 @@ var game = {
 		game.slingshotReleasedSound = loader.loadSound("audio/released");
 		game.bounceSound = loader.loadSound('audio/bounce');
 		game.breakSound = {
+			"hielo":loader.loadSound('audio/glassbreak'),
+			"madera":loader.loadSound('audio/woodbreak'),
 			"glass":loader.loadSound('audio/glassbreak'),
 			"wood":loader.loadSound('audio/woodbreak')
 		};
@@ -403,19 +405,19 @@ var levels = {
 		foreground:'desert-foreground',
 		background:'clouds-background',
 		entities:[
-			{type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
-			{type:"ground", name:"wood", x:185,y:390,width:30,height:80,isStatic:true},
+			{type:"ground", name:"tierra", x:500,y:440,width:1000,height:20,isStatic:true},
+			{type:"ground", name:"madera", x:185,y:390,width:30,height:80,isStatic:true},
 
-			{type:"block", name:"wood", x:520,y:380,angle:90,width:100,height:25},
-			{type:"block", name:"glass", x:520,y:280,angle:90,width:100,height:25},								
+			{type:"block", name:"madera", x:520,y:380,angle:90,width:100,height:25},
+			{type:"block", name:"hielo", x:520,y:280,angle:90,width:100,height:25},								
 			{type:"villain", name:"creeper",x:520,y:205,calories:590},
 
-			{type:"block", name:"wood", x:620,y:380,angle:90,width:100,height:25},
-			{type:"block", name:"glass", x:620,y:280,angle:90,width:100,height:25},								
+			{type:"block", name:"madera", x:620,y:380,angle:90,width:100,height:25},
+			{type:"block", name:"hielo", x:620,y:280,angle:90,width:100,height:25},								
 			{type:"villain", name:"esqueleto", x:620,y:205,calories:420},				
 
-			{type:"hero", name:"orange",x:80,y:405},
-			{type:"hero", name:"apple",x:140,y:405},
+			{type:"hero", name:"gato_de_pie",x:80,y:405},
+			{type:"hero", name:"gato_sentado",x:140,y:405},
 		]
 	 },
 		{   // Segundo nivel
@@ -510,7 +512,24 @@ var entities = {
 			friction:0.4,
 			restitution:0.4,
 		},
+		"hielo":{
+			fullHealth:100,
+			density:2.4,
+			friction:0.4,
+			restitution:0.15,
+		},
+		"madera":{
+			fullHealth:500,
+			density:0.7,
+			friction:0.4,
+			restitution:0.4,
+		},
 		"dirt":{
+			density:3.0,
+			friction:1.5,
+			restitution:0.2,	
+		},
+		"tierra":{
 			density:3.0,
 			friction:1.5,
 			restitution:0.2,	
@@ -541,23 +560,23 @@ var entities = {
 			friction:0.5,
 			restitution:0.6,	
 		},
-		"apple":{
+		"gato_de_pie":{
 			shape:"circle",
 			radius:25,
 			density:1.5,
 			friction:0.5,
 			restitution:0.4,	
 		},
-		"orange":{
+		"gato_sentado":{
 			shape:"circle",
 			radius:25,
 			density:1.5,
 			friction:0.5,
 			restitution:0.4,	
 		},
-		"strawberry":{
+		"gato_galleta":{
 			shape:"circle",
-			radius:15,
+			radius:25,
 			density:2.0,
 			friction:0.5,
 			restitution:0.4,	
@@ -575,7 +594,7 @@ var entities = {
 				entity.health = definition.fullHealth;
 				entity.fullHealth = definition.fullHealth;
 				entity.shape = "rectangle";	
-				entity.sprite = loader.loadImage("images/entities/"+entity.name+".png");						
+				entity.sprite = loader.loadImage("images/new_entities/"+entity.name+".png");						
 				entity.breakSound = game.breakSound[entity.name];
 				box2d.createRectangle(entity,definition);				
 				break;
