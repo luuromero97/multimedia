@@ -425,7 +425,7 @@ var levels = {
 			background:'clouds-background',
 			entities:[
 				{type:"ground", name:"arena", x:500,y:440,width:1000,height:20,isStatic:true},
-				{type:"ground", name:"maderanormal", x:185,y:390,width:30,height:80,isStatic:true},
+				{type:"ground", name:"maderanormal", x:185,y:390,width:30,height:80,isStatic:true},	
 	
 				{type:"block", name:"piedra", x:820,y:380,angle:90,width:100,height:25},
 				{type:"block", name:"piedra", x:720,y:380,angle:90,width:100,height:25},
@@ -444,6 +444,46 @@ var levels = {
 				{type:"hero", name:"gato_donut",x:30,y:415},
 				{type:"hero", name:"gato_galleta",x:80,y:405},
 				{type:"hero", name:"gato_tumbado",x:140,y:405},
+			]
+		},
+		{   // Tercer nivel
+			foreground:'nieve',
+			background:'clouds-background',
+			entities:[
+				{type:"ground", name:"hielo", x:500,y:440,width:1000,height:20,isStatic:true},
+				{type:"ground", name:"madera", x:185,y:390,width:30,height:80,isStatic:true},
+
+				{type:"block", name:"piedra", x:520,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"hielo", x:520,y:280,angle:90,width:100,height:25},	
+				{type:"block", name:"madera", x:520,y:180,angle:0,width:100,height:40},	
+				{type:"villain", name:"esqueleto",x:520,y:80,calories:420},
+	
+				{type:"villain", name:"enderman",x:560,y:380,calories:420},
+
+				{type:"block", name:"hielo", x:840,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"hielo", x:810,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"hielo", x:735,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"hielo", x:715,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"hielo", x:630,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"hielo", x:600,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"madera", x:670,y:317.5,width:120,height:25},
+				{type:"block", name:"madera", x:770,y:317.5,width:120,height:25},				
+
+				{type:"block", name:"hielo", x:660,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"hielo", x:780,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"hielo", x:720,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"maderanormal", x:720,y:192.5,width:120,height:25},	
+
+				{type:"villain", name:"silverfish",x:715,y:155,calories:590},
+				{type:"villain", name:"esqueleto_de_frente",x:665,y:405,calories:420},
+				{type:"villain", name:"creeper",x:755,y:400,calories:150},
+				{type:"villain", name:"baby_zombie",x:690,y:260,calories:150},
+				{type:"villain", name:"baby_zombie",x:750,y:260,calories:150},
+
+				{type:"hero", name:"gato_donut",x:30,y:415},
+				{type:"hero", name:"gato_galleta",x:80,y:405},
+				{type:"hero", name:"gato_tumbado",x:140,y:405},
+				{type:"hero", name:"gato_sentado",x:140,y:405},
 			]
 		}
 	],
@@ -591,6 +631,42 @@ var entities = {
 			fullHealth:50,
 			width:40,
 			height:100,
+			density:1,
+			friction:0.5,
+			restitution:0.6,	
+		},
+		"silverfish":{
+			shape:"rectangle",
+			fullHealth:50,
+			width:40,
+			height:50,
+			density:1,
+			friction:0.5,
+			restitution:0.6,	
+		},
+		"ghast":{
+			shape:"rectangle",
+			fullHealth:50,
+			width:70,
+			height:70,
+			density:1,
+			friction:0.5,
+			restitution:0.6,	
+		},
+		"zombie":{
+			shape:"rectangle",
+			fullHealth:50,
+			width:40,
+			height:50,
+			density:1,
+			friction:0.5,
+			restitution:0.6,	
+		},
+		"baby_zombie":{
+			shape:"rectangle",
+			fullHealth:50,
+			width:40,
+			height:50,
 			density:1,
 			friction:0.5,
 			restitution:0.6,	
