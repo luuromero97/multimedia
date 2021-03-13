@@ -421,29 +421,29 @@ var levels = {
 		]
 	 },
 		{   // Segundo nivel
-			foreground:'desert-foreground',
+			foreground:'desierto_2',
 			background:'clouds-background',
 			entities:[
-				{type:"ground", name:"dirt", x:500,y:440,width:1000,height:20,isStatic:true},
-				{type:"ground", name:"wood", x:185,y:390,width:30,height:80,isStatic:true},
+				{type:"ground", name:"arena", x:500,y:440,width:1000,height:20,isStatic:true},
+				{type:"ground", name:"maderanormal", x:185,y:390,width:30,height:80,isStatic:true},
 	
-				{type:"block", name:"wood", x:820,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"wood", x:720,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"wood", x:620,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"glass", x:670,y:317.5,width:100,height:25},
-				{type:"block", name:"glass", x:770,y:317.5,width:100,height:25},				
+				{type:"block", name:"piedra", x:820,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"piedra", x:720,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"piedra", x:620,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"maderanormal", x:670,y:317.5,width:100,height:25},
+				{type:"block", name:"maderanormal", x:770,y:317.5,width:100,height:25},				
 
-				{type:"block", name:"glass", x:670,y:255,angle:90,width:100,height:25},
-				{type:"block", name:"glass", x:770,y:255,angle:90,width:100,height:25},
-				{type:"block", name:"wood", x:720,y:192.5,width:100,height:25},	
+				{type:"block", name:"arena", x:670,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"arena", x:770,y:255,angle:90,width:100,height:25},
+				{type:"block", name:"maderanormal", x:720,y:192.5,width:100,height:25},	
 
-				{type:"villain", name:"burger",x:715,y:155,calories:590},
-				{type:"villain", name:"fries",x:670,y:405,calories:420},
-				{type:"villain", name:"sodacan",x:765,y:400,calories:150},
+				{type:"villain", name:"enderman",x:715,y:155,calories:590},
+				{type:"villain", name:"esqueleto_de_frente",x:670,y:405,calories:420},
+				{type:"villain", name:"creeper",x:765,y:400,calories:150},
 
-				{type:"hero", name:"strawberry",x:30,y:415},
-				{type:"hero", name:"orange",x:80,y:405},
-				{type:"hero", name:"apple",x:140,y:405},
+				{type:"hero", name:"gato_donut",x:30,y:415},
+				{type:"hero", name:"gato_galleta",x:80,y:405},
+				{type:"hero", name:"gato_tumbado",x:140,y:405},
 			]
 		}
 	],
@@ -523,6 +523,18 @@ var entities = {
 			density:0.7,
 			friction:0.4,
 			restitution:0.4,
+		},		
+		"maderanormal":{
+			fullHealth:500,
+			density:0.7,
+			friction:0.4,
+			restitution:0.4,
+		},
+		"piedra":{
+			fullHealth:500,
+			density:0.7,
+			friction:0.4,
+			restitution:0.4,
 		},
 		"dirt":{
 			density:3.0,
@@ -530,6 +542,11 @@ var entities = {
 			restitution:0.2,	
 		},
 		"tierra":{
+			density:3.0,
+			friction:1.5,
+			restitution:0.2,	
+		},		
+		"arena":{
 			density:3.0,
 			friction:1.5,
 			restitution:0.2,	
@@ -559,6 +576,24 @@ var entities = {
 			density:1,
 			friction:0.5,
 			restitution:0.6,	
+		},		
+		"esqueleto_de_frente":{
+			shape:"rectangle",
+			fullHealth:50,
+			width:40,
+			height:50,
+			density:1,
+			friction:0.5,
+			restitution:0.6,	
+		},		
+		"enderman":{
+			shape:"rectangle",
+			fullHealth:50,
+			width:40,
+			height:100,
+			density:1,
+			friction:0.5,
+			restitution:0.6,	
 		},
 		"gato_de_pie":{
 			shape:"circle",
@@ -581,6 +616,20 @@ var entities = {
 			friction:0.5,
 			restitution:0.4,	
 		},
+		"gato_donut":{
+			shape:"circle",
+			radius:25,
+			density:2.0,
+			friction:0.5,
+			restitution:0.4,	
+		},
+		"gato_tumbado":{
+			shape:"circle",
+			radius:25,
+			density:2.0,
+			friction:0.5,
+			restitution:0.4,	
+		}
 	},
 	// Tomar la entidad, crear un cuerpo box2d y aÃ±adirlo al mundo
 	create:function(entity){
