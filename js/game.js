@@ -402,7 +402,7 @@ var levels = {
 	// Datos de nivel
 	data:[
 	 {   // Primer nivel 
-		foreground:'desert-foreground',
+		foreground:'bosque_3',
 		background:'clouds-background',
 		entities:[
 			{type:"ground", name:"tierra", x:500,y:440,width:1000,height:20,isStatic:true},
@@ -478,8 +478,8 @@ var levels = {
 
 
 		//Cargar las imÃ¡genes de fondo, primer plano y honda
-		game.currentLevel.backgroundImage = loader.loadImage("images/backgrounds/"+level.background+".png");
-		game.currentLevel.foregroundImage = loader.loadImage("images/backgrounds/"+level.foreground+".png");
+		game.currentLevel.backgroundImage = loader.loadImage("images/new_backgrounds/"+level.background+".png");
+		game.currentLevel.foregroundImage = loader.loadImage("images/new_backgrounds/"+level.foreground+".png");
 		game.slingshotImage = loader.loadImage("images/new_slingshot.png");
 		game.slingshotFrontImage = loader.loadImage("images/new_front_slingshot.png");
 
