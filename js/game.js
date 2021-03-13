@@ -9,7 +9,7 @@ var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
 var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
 var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
-// Solicitud de requestAnimationFrame y cancelAnimationFrame para su uso en el cÃ³digo del juego
+// Solicitud de requestAnimationFrame y cancelAnimationFrame para su uso en el código del juego
 (function() {
 	var lastTime = 0;
 	var vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -40,14 +40,14 @@ $(window).load(function() {
 });
 
 var game = {
-	// InicializaciÃ³n de objetos, precarga de elementos y pantalla de inicio
+	// Inicialización de objetos, precarga de elementos y pantalla de inicio
 	init: function(){
-		// InicializaciÃ³n de objetos   
+		// Inicialización de objetos   
 		levels.init();
 		loader.init();
 		mouse.init();
 
-		// Cargar todos los efectos de sonido y mÃºsica de fondo
+		// Cargar todos los efectos de sonido y música de fondo
 	
 		//"Kindergarten" by Gurdonark
 		//http://ccmixter.org/files/gurdonark/26491 is licensed under a Creative Commons license
@@ -408,11 +408,11 @@ var levels = {
 
 			{type:"block", name:"wood", x:520,y:380,angle:90,width:100,height:25},
 			{type:"block", name:"glass", x:520,y:280,angle:90,width:100,height:25},								
-			{type:"villain", name:"burger",x:520,y:205,calories:590},
+			{type:"villain", name:"creeper",x:520,y:205,calories:590},
 
 			{type:"block", name:"wood", x:620,y:380,angle:90,width:100,height:25},
 			{type:"block", name:"glass", x:620,y:280,angle:90,width:100,height:25},								
-			{type:"villain", name:"fries", x:620,y:205,calories:420},				
+			{type:"villain", name:"esqueleto", x:620,y:205,calories:420},				
 
 			{type:"hero", name:"orange",x:80,y:405},
 			{type:"hero", name:"apple",x:140,y:405},
@@ -478,8 +478,8 @@ var levels = {
 		//Cargar las imÃ¡genes de fondo, primer plano y honda
 		game.currentLevel.backgroundImage = loader.loadImage("images/backgrounds/"+level.background+".png");
 		game.currentLevel.foregroundImage = loader.loadImage("images/backgrounds/"+level.foreground+".png");
-		game.slingshotImage = loader.loadImage("images/slingshot.png");
-		game.slingshotFrontImage = loader.loadImage("images/slingshot-front.png");
+		game.slingshotImage = loader.loadImage("images/new_slingshot.png");
+		game.slingshotFrontImage = loader.loadImage("images/new_front_slingshot.png");
 
 		// Cargar todas la entidades
 		for (var i = level.entities.length - 1; i >= 0; i--){	
@@ -515,11 +515,11 @@ var entities = {
 			friction:1.5,
 			restitution:0.2,	
 		},
-		"burger":{
-			shape:"circle",
+		"creeper":{
+			shape:"rectangle",
 			fullHealth:40,
-			radius:25,
-			density:1,
+			width:40,
+			height:50,
 			friction:0.5,
 			restitution:0.4,	
 		},
@@ -532,7 +532,7 @@ var entities = {
 			friction:0.5,
 			restitution:0.7,	
 		},
-		"fries":{
+		"esqueleto":{
 			shape:"rectangle",
 			fullHealth:50,
 			width:40,
@@ -589,7 +589,7 @@ var entities = {
 			case "villain": // Pueden ser cÃ­rculos o rectÃ¡ngulos
 				entity.health = definition.fullHealth;
 				entity.fullHealth = definition.fullHealth;
-				entity.sprite = loader.loadImage("images/entities/"+entity.name+".png");
+				entity.sprite = loader.loadImage("images/new_entities/"+entity.name+".png");
 				entity.shape = definition.shape;  
 				entity.bounceSound = game.bounceSound;
 				if(definition.shape == "circle"){
