@@ -74,11 +74,11 @@ var game = {
 	startBackgroundMusic:function(){
 		var toggleImage = $("#togglemusic")[0];	
 		game.backgroundMusic.play();
-		toggleImage.src="images/icons/sound.png";	
+		toggleImage.src="images/new_icons/audio.png";	
 	},
 	stopBackgroundMusic:function(){
 		var toggleImage = $("#togglemusic")[0];	
-		toggleImage.src="images/icons/nosound.png";	
+		toggleImage.src="images/new_icons/mute.png";	
 		game.backgroundMusic.pause();
 		game.backgroundMusic.currentTime = 0; // Ir al comienzo de la canciÃ³n
 	},
@@ -86,10 +86,10 @@ var game = {
 		var toggleImage = $("#togglemusic")[0];
 		if(game.backgroundMusic.paused){
 			game.backgroundMusic.play();
-			toggleImage.src="images/icons/sound.png";
+			toggleImage.src="images/new_icons/audio.png";
 		} else {
 			game.backgroundMusic.pause();	
-			$("#togglemusic")[0].src="images/icons/nosound.png";
+			$("#togglemusic")[0].src="images/new_icons/mute.png";
 		}
 	},
 	showLevelScreen:function(){
