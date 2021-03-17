@@ -49,17 +49,31 @@ var game = {
 
 		// Cargar todos los efectos de sonido y música de fondo
 	
-		//"Kindergarten" by Gurdonark
-		//http://ccmixter.org/files/gurdonark/26491 is licensed under a Creative Commons license
-		game.backgroundMusic = loader.loadSound('audio/gurdonark-kindergarten');
+		//"Voxel Revolution" Kevin MacLeod (incompetech.com)
+		//Licensed under Creative Commons: By Attribution 4.0 License
+		//http://creativecommons.org/licenses/by/4.0/
+		game.backgroundMusic = loader.loadSound('new_audio/Voxel Revolution');
 
-		game.slingshotReleasedSound = loader.loadSound("audio/released");
-		game.bounceSound = loader.loadSound('audio/bounce');
+		//erkanozan Creative Commons - 0 License
+		//https://freesound.org/people/erkanozan/sounds/51755/
+		game.slingshotReleasedSound = loader.loadSound("new_audio/whip");
+
+		//Robinhood76 Creative Commons - Noncomercial License
+		//https://freesound.org/people/Robinhood76/sounds/99773/
+		game.bounceSound = loader.loadSound('new_audio/bounce');
 		game.breakSound = {
-			"hielo":loader.loadSound('audio/glassbreak'),
-			"madera":loader.loadSound('audio/woodbreak'),
-			"glass":loader.loadSound('audio/glassbreak'),
-			"wood":loader.loadSound('audio/woodbreak')
+			//RHumphries Creative Commons - Attribution License
+			//https://freesound.org/people/RHumphries/sounds/979/
+			"hielo":loader.loadSound('new_audio/glass_break'),
+			//kevinkace Creatice Commons - 0 License
+			//https://freesound.org/people/kevinkace/sounds/66779/
+			"madera":loader.loadSound('new_audio/wood_break'),
+			//RHumphries Creative Commons - Attribution License
+			//https://freesound.org/people/RHumphries/sounds/979/
+			"glass":loader.loadSound('new_audio/glass_break'),
+			//kevinkace Creatice Commons - 0 License
+			//https://freesound.org/people/kevinkace/sounds/66779/
+			"wood":loader.loadSound('new_audio/wood_break')
 		};
 
 
