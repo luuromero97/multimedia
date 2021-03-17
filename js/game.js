@@ -502,10 +502,72 @@ var levels = {
 				{type:"villain", name:"creeper",x:755,y:400,calories:150},
 				{type:"villain", name:"baby_zombie",x:720,y:260,calories:150},
 
-				{type:"hero", name:"gato_donut",x:30,y:415},
+				{type:"hero", name:"gato_de_pie",x:30,y:415},
 				{type:"hero", name:"gato_galleta",x:80,y:405},
-				{type:"hero", name:"gato_tumbado",x:140,y:405},
 				{type:"hero", name:"gato_sentado",x:140,y:405},
+			]
+		},
+		{   // Cuarto nivel
+			foreground:'playa',
+			background:'clouds-background',
+			entities:[
+				{type:"ground", name:"arena", x:500,y:440,width:1000,height:20,isStatic:true},
+				{type:"ground", name:"maderanormal", x:185,y:390,width:30,height:80,isStatic:true},	
+	
+				{type:"block", name:"tierra", x:510,y:380,width:100,height:25},
+
+				{type:"block", name:"arena", x:680,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"arena", x:580,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"piedra", x:630,y:317.5,width:125,height:25},
+
+				{type:"block", name:"arena", x:810,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"arena", x:710,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"maderanormal", x:760,y:317.5,width:125,height:25},
+				
+				{type:"block", name:"arena", x:810,y:270,angle:90,width:100,height:25},
+				{type:"block", name:"arena", x:710,y:270,angle:90,width:100,height:25},
+				{type:"block", name:"maderanormal", x:760,y:200,width:125,height:25},
+				
+				{type:"villain", name:"baby_zombie",x:510,y:300,calories:590},
+				{type:"villain", name:"esqueleto",x:630,y:300,calories:420},
+				{type:"villain", name:"enderman",x:760,y:150,calories:150},
+
+				{type:"hero", name:"gato_sentado",x:30,y:415},
+				{type:"hero", name:"gato_donut",x:80,y:405},
+				{type:"hero", name:"gato_tumbado",x:140,y:405},
+			]
+		},
+		{   // Quinto nivel
+			foreground:'bosque_4',
+			background:'clouds-background',
+			entities:[
+				{type:"ground", name:"arena", x:500,y:440,width:1000,height:20,isStatic:true},
+				{type:"ground", name:"maderanormal", x:185,y:390,width:30,height:80,isStatic:true},	
+
+				{type:"block", name:"madera", x:680,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"madera", x:580,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"tierra", x:630,y:317.5,width:125,height:25},
+				
+				{type:"block", name:"hielo", x:680,y:270,angle:90,width:100,height:25},
+				{type:"block", name:"hielo", x:580,y:270,angle:90,width:100,height:25},
+				{type:"block", name:"maderanormal", x:630,y:200,width:125,height:25},
+
+				{type:"block", name:"madera", x:810,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"madera", x:710,y:380,angle:90,width:100,height:25},
+				{type:"block", name:"tierra", x:760,y:317.5,width:125,height:25},
+				
+				{type:"block", name:"hielo", x:810,y:270,angle:90,width:100,height:25},
+				{type:"block", name:"hielo", x:710,y:270,angle:90,width:100,height:25},
+				{type:"block", name:"maderanormal", x:760,y:200,width:125,height:25},
+				
+				{type:"villain", name:"esqueleto",x:510,y:300,calories:590},
+				{type:"villain", name:"baby_zombie",x:630,y:300,calories:420},
+				{type:"villain", name:"baby_zombie",x:760,y:300,calories:420},
+				{type:"villain", name:"silverfish",x:700,y:150,calories:150},
+
+				{type:"hero", name:"gato_galleta",x:30,y:415},
+				{type:"hero", name:"gato_donut",x:80,y:405},
+				{type:"hero", name:"gato_de_pie",x:140,y:405},
 			]
 		}
 	],
