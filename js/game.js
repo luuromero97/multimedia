@@ -674,14 +674,14 @@ var entities = {
 		"gato_de_pie":{
 			shape:"circle",
 			radius:25,
-			density:1.5,
+			density:2.0,
 			friction:0.5,
 			restitution:0.4,	
 		},
 		"gato_sentado":{
 			shape:"circle",
 			radius:25,
-			density:1.5,
+			density:2.0,
 			friction:0.5,
 			restitution:0.4,	
 		},
@@ -729,7 +729,7 @@ var entities = {
 				// No hay necesidad de sprites. Ã‰stos no serÃ¡n dibujados en absoluto 
 				box2d.createRectangle(entity,definition);			   
 				break;	
-			case "hero":	// CÃ­rculos simples
+			case "hero":
 			case "villain": // Pueden ser cÃ­rculos o rectÃ¡ngulos
 				entity.health = definition.fullHealth;
 				entity.fullHealth = definition.fullHealth;
