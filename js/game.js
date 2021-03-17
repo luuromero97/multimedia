@@ -58,16 +58,28 @@ var game = {
 		//https://freesound.org/people/erkanozan/sounds/51755/
 		game.slingshotReleasedSound = loader.loadSound("new_audio/whip");
 
-		//Robinhood76 Creative Commons - Noncomercial License
-		//https://freesound.org/people/Robinhood76/sounds/99773/
+		//HighPixel Creative Commons - 0 License
+		//https://freesound.org/people/HighPixel/sounds/505628/
 		game.bounceSound = loader.loadSound('new_audio/bounce');
 		game.breakSound = {
 			//RHumphries Creative Commons - Attribution License
 			//https://freesound.org/people/RHumphries/sounds/979/
 			"hielo":loader.loadSound('new_audio/glass_break'),
-			//kevinkace Creatice Commons - 0 License
+			//kevinkace Creative Commons - 0 License
 			//https://freesound.org/people/kevinkace/sounds/66779/
 			"madera":loader.loadSound('new_audio/wood_break'),
+			//kevinkace Creative Commons - 0 License
+			//https://freesound.org/people/kevinkace/sounds/66779/
+			"maderanormal":loader.loadSound('new_audio/wood_break'),
+			//alegemaate Creative Commons - 0 License
+			//https://freesound.org/people/alegemaate/sounds/364711/
+			"piedra":loader.loadSound('new_audio/stone_break'),
+			//wyronroberth Creative Commons - 0 License
+			//https://freesound.org/people/wyronroberth/sounds/516247/
+			"arena":loader.loadSound('new_audio/sand_break'),
+			//wyronroberth Creative Commons - 0 License
+			//https://freesound.org/people/wyronroberth/sounds/516247/
+			"tierra":loader.loadSound('new_audio/sand_break'),
 			//RHumphries Creative Commons - Attribution License
 			//https://freesound.org/people/RHumphries/sounds/979/
 			"glass":loader.loadSound('new_audio/glass_break'),
@@ -469,30 +481,26 @@ var levels = {
 
 				{type:"block", name:"piedra", x:520,y:380,angle:90,width:100,height:25},
 				{type:"block", name:"hielo", x:520,y:280,angle:90,width:100,height:25},	
-				{type:"block", name:"madera", x:520,y:180,angle:0,width:100,height:40},	
+				{type:"block", name:"madera", x:520,y:180,angle:0,width:100,height:25},	
 				{type:"villain", name:"esqueleto",x:520,y:80,calories:420},
 	
 				{type:"villain", name:"enderman",x:560,y:380,calories:420},
 
 				{type:"block", name:"hielo", x:840,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"hielo", x:810,y:380,angle:90,width:100,height:25},
 				{type:"block", name:"hielo", x:735,y:380,angle:90,width:100,height:25},
 				{type:"block", name:"hielo", x:715,y:380,angle:90,width:100,height:25},
-				{type:"block", name:"hielo", x:630,y:380,angle:90,width:100,height:25},
 				{type:"block", name:"hielo", x:600,y:380,angle:90,width:100,height:25},
 				{type:"block", name:"madera", x:670,y:317.5,width:120,height:25},
 				{type:"block", name:"madera", x:770,y:317.5,width:120,height:25},				
 
 				{type:"block", name:"hielo", x:660,y:255,angle:90,width:100,height:25},
 				{type:"block", name:"hielo", x:780,y:255,angle:90,width:100,height:25},
-				{type:"block", name:"hielo", x:720,y:255,angle:90,width:100,height:25},
 				{type:"block", name:"maderanormal", x:720,y:192.5,width:120,height:25},	
 
 				{type:"villain", name:"silverfish",x:715,y:155,calories:590},
 				{type:"villain", name:"esqueleto_de_frente",x:665,y:405,calories:420},
 				{type:"villain", name:"creeper",x:755,y:400,calories:150},
-				{type:"villain", name:"baby_zombie",x:690,y:260,calories:150},
-				{type:"villain", name:"baby_zombie",x:750,y:260,calories:150},
+				{type:"villain", name:"baby_zombie",x:720,y:260,calories:150},
 
 				{type:"hero", name:"gato_donut",x:30,y:415},
 				{type:"hero", name:"gato_galleta",x:80,y:405},
@@ -554,6 +562,7 @@ var levels = {
 
 var entities = {
 	definitions:{
+		//Elementos de los niveles:
 		"glass":{
 			fullHealth:100,
 			density:2.4,
@@ -573,19 +582,19 @@ var entities = {
 			restitution:0.15,
 		},
 		"madera":{
-			fullHealth:500,
+			fullHealth:200,
 			density:0.7,
 			friction:0.4,
 			restitution:0.4,
 		},		
 		"maderanormal":{
-			fullHealth:500,
+			fullHealth:200,
 			density:0.7,
 			friction:0.4,
 			restitution:0.4,
 		},
 		"piedra":{
-			fullHealth:500,
+			fullHealth:300,
 			density:0.7,
 			friction:0.4,
 			restitution:0.4,
@@ -596,15 +605,18 @@ var entities = {
 			restitution:0.2,	
 		},
 		"tierra":{
+			fullHealth:100,
 			density:3.0,
 			friction:1.5,
 			restitution:0.2,	
 		},		
 		"arena":{
+			fullHealth:100,
 			density:3.0,
 			friction:1.5,
 			restitution:0.2,	
 		},
+		//Héroes y villanos:
 		"creeper":{
 			shape:"rectangle",
 			fullHealth:40,
