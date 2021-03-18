@@ -85,7 +85,10 @@ var game = {
 			"glass":loader.loadSound('new_audio/glass_break'),
 			//kevinkace Creatice Commons - 0 License
 			//https://freesound.org/people/kevinkace/sounds/66779/
-			"wood":loader.loadSound('new_audio/wood_break')
+			"wood":loader.loadSound('new_audio/wood_break'),
+			//ProjectsU012 Creative Commons - Attribution License
+			//https://freesound.org/people/ProjectsU012/sounds/341695/
+			"diamante":loader.loadSound('new_audio/coin')
 		};
 
 
@@ -378,6 +381,10 @@ var game = {
 						game.score += entity.calories;
 						$('#score').html('Score: '+game.score);
 					}
+					if (entity.type=="coin"){
+						game.score += 1000;
+						$('#score').html('Score: '+game.score);
+					}
 					if (entity.breakSound){
 						entity.breakSound.play();
 					}
@@ -444,6 +451,8 @@ var levels = {
 
 			{type:"hero", name:"gato_de_pie",x:80,y:405},
 			{type:"hero", name:"gato_sentado",x:140,y:405},
+
+			{type:"coin", name:"diamante",x:400,y:200},
 		]
 	 },
 		{   // Segundo nivel
@@ -793,6 +802,14 @@ var entities = {
 			density:2.0,
 			friction:0.5,
 			restitution:0.4,	
+		},
+		"diamante":{
+			shape:"circle",
+			fullHealth:10,
+			radius:12,
+			density:1.0,
+			friction:0.2,
+			restitution:0.2,
 		}
 	},
 	// Tomar la entidad, crear un cuerpo box2d y aÃ±adirlo al mundo
@@ -832,7 +849,17 @@ var entities = {
 					entity.height = definition.height;
 					box2d.createRectangle(entity,definition);					
 				}												 
-				break;							
+				break;
+			case "coin": //Son círculos
+				entity.health = definition.fullHealth;
+				entity.fullHealth = definition.fullHealth;
+				entity.sprite = loader.loadImage("images/new_entities/"+entity.name+".png");
+				entity.breakSound = game.breakSound[entity.name];
+				entity.shape = definition.shape;  
+				entity.bounceSound = game.bounceSound;
+				entity.radius = definition.radius;
+				box2d.createCircle(entity,definition);											 
+				break;						
 			default:
 				console.log("Undefined entity type",entity.type);
 				break;
@@ -848,6 +875,7 @@ var entities = {
 				game.context.drawImage(entity.sprite,0,0,entity.sprite.width,entity.sprite.height,
 						-entity.width/2-1,-entity.height/2-1,entity.width+2,entity.height+2);	
 			break;
+			case "coin":
 			case "villain":
 			case "hero": 
 				if (entity.shape=="circle"){
