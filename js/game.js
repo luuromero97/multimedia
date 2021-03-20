@@ -97,7 +97,7 @@ var game = {
 		$('#gamestartscreen').show();
 
 		//Obtener el controlador para el lienzo de juego y el contexto
-		game.canvas = document.getElementById('gamecanvas');
+		game.canvas =  $('#gamecanvas')[0];
 		game.context = game.canvas.getContext('2d');
 	},	  
 	startBackgroundMusic:function(){
@@ -122,17 +122,25 @@ var game = {
 		}
 	},
 	showLevelScreen:function(){
+		loader.resetCounts();
 		$('.gamelayer').hide();
 		$('#levelselectscreen').show('slow');
+
+	},
+	endGame:function(){
+		game.ended = true;
+		game.showLevelScreen();
 	},
 	restartLevel:function(){
 		window.cancelAnimationFrame(game.animationFrame);		
 		game.lastUpdateTime = undefined;
+		loader.resetCounts();
 		levels.load(game.currentLevel.number);
 	},
 	startNextLevel:function(){
 		window.cancelAnimationFrame(game.animationFrame);		
 		game.lastUpdateTime = undefined;
+		loader.resetCounts();
 		levels.load(game.currentLevel.number+1);
 	},
 	// Modo Juego 
@@ -445,14 +453,14 @@ var levels = {
 			{type:"block", name:"hielo", x:520,y:280,angle:90,width:100,height:25},								
 			{type:"villain", name:"creeper",x:520,y:205,calories:590},
 
+			{type:"coin", name:"diamante",x:570,y:280, isStatic:true},
+
 			{type:"block", name:"madera", x:620,y:380,angle:90,width:100,height:25},
 			{type:"block", name:"hielo", x:620,y:280,angle:90,width:100,height:25},								
 			{type:"villain", name:"esqueleto", x:620,y:205,calories:420},				
 
 			{type:"hero", name:"gato_de_pie",x:80,y:405},
 			{type:"hero", name:"gato_sentado",x:140,y:405},
-
-			{type:"coin", name:"diamante",x:400,y:200},
 		]
 	 },
 		{   // Segundo nivel
@@ -601,9 +609,10 @@ var levels = {
 	load:function(number){
 	   //Inicializar box2d world cada vez que se carga un nivel
 		box2d.init();
-
+		console.log("Box2d inicializado");
 		// Declarar un nuevo objeto de nivel actual
 		game.currentLevel = {number:number,hero:[]};
+		console.log("Nivel: "+ game.currentLevel);
 		game.score=0;
 		$('#score').html('Score: '+game.score);
 		game.currentHero = undefined;
@@ -616,17 +625,22 @@ var levels = {
 		game.slingshotImage = loader.loadImage("images/new_slingshot.png");
 		game.slingshotFrontImage = loader.loadImage("images/new_front_slingshot.png");
 
+		console.log("Imágenes del nivel "+number+" cargadas");
+
 		// Cargar todas la entidades
 		for (var i = level.entities.length - 1; i >= 0; i--){	
 			var entity = level.entities[i];
 			entities.create(entity);	
+			console.log("Entidad "+ i + " cargada")
 		};
 
 		  //Llamar a game.start() una vez que los assets se hayan cargado
 	   if(loader.loaded){
-		   game.start()
+	   		console.log("El juego va a empezar porque loader.loaded = true");
+		   	game.start()
 	   } else {
-		   loader.onload = game.start;
+	   		console.log("loader.loaded = false");
+		   	loader.onload = game.start;
 	   }
 	}
 }
@@ -807,9 +821,9 @@ var entities = {
 			shape:"circle",
 			fullHealth:10,
 			radius:12,
-			density:1.0,
-			friction:0.2,
-			restitution:0.2,
+			density:0.0,
+			friction:0.0,
+			restitution:0.0,
 		}
 	},
 	// Tomar la entidad, crear un cuerpo box2d y aÃ±adirlo al mundo
@@ -1056,7 +1070,7 @@ var loader = {
 	itemLoaded:function(){
 		loader.loadedCount++;
 		$('#loadingmessage').html('Loaded '+loader.loadedCount+' of '+loader.totalCount);
-		if (loader.loadedCount === loader.totalCount){
+		if (loader.loadedCount == loader.totalCount){
 			// Loader se ha cargado completamente. . .
 			loader.loaded = true;
 			// Ocultar la pantalla de carga
@@ -1067,6 +1081,13 @@ var loader = {
 				loader.onload = undefined;
 			}
 		}
+	},
+	resetCounts:function(){
+		loader.loadedCount = 0;
+		loader.totalCount = 0;
+	},
+	resetLoadedCount(){
+		loader.loadedCount = 0;
 	}
 }
 
