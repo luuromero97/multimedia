@@ -200,6 +200,7 @@ var game = {
 	countHeroesAndVillains:function(){
 		game.heroes = [];
 		game.villains = [];
+		game.coins = [];
 		for (var body = box2d.world.GetBodyList(); body; body = body.GetNext()) {
 			var entity = body.GetUserData();
 			if(entity){
@@ -207,6 +208,8 @@ var game = {
 					game.heroes.push(body);			
 				} else if (entity.type =="villain"){
 					game.villains.push(body);
+				} else{
+					game.coins.push(body);
 				}
 			}
 		}
@@ -833,11 +836,11 @@ var entities = {
 		},
 		"diamante":{
 			shape:"circle",
-			fullHealth:10,
+			fullHealth:1,
 			radius:12,
-			density:0.0,
-			friction:0.0,
-			restitution:0.0,
+			density:1,
+			friction:0.5,
+			restitution:0.6,
 		}
 	},
 	// Tomar la entidad, crear un cuerpo box2d y aÃ±adirlo al mundo
