@@ -469,7 +469,9 @@ var levels = {
 			entities:[
 				{type:"ground", name:"arena", x:500,y:440,width:1000,height:20,isStatic:true},
 				{type:"ground", name:"maderanormal", x:185,y:390,width:30,height:80,isStatic:true},	
-	
+				
+				{type:"coin", name:"diamante",x:520,y:200, isStatic:true},
+
 				{type:"block", name:"piedra", x:820,y:380,angle:90,width:100,height:25},
 				{type:"block", name:"piedra", x:720,y:380,angle:90,width:100,height:25},
 				{type:"block", name:"piedra", x:620,y:380,angle:90,width:100,height:25},
@@ -479,6 +481,8 @@ var levels = {
 				{type:"block", name:"arena", x:670,y:255,angle:90,width:100,height:25},
 				{type:"block", name:"arena", x:770,y:255,angle:90,width:100,height:25},
 				{type:"block", name:"maderanormal", x:720,y:192.5,width:100,height:25},	
+
+				{type:"coin", name:"diamante",x:920,y:200, isStatic:true},
 
 				{type:"villain", name:"enderman",x:715,y:155,calories:590},
 				{type:"villain", name:"esqueleto_de_frente",x:670,y:405,calories:420},
@@ -503,6 +507,8 @@ var levels = {
 	
 				{type:"villain", name:"enderman",x:560,y:380,calories:420},
 
+				{type:"coin", name:"diamante",x:560,y:300, isStatic:true},
+
 				{type:"block", name:"hielo", x:840,y:380,angle:90,width:100,height:25},
 				{type:"block", name:"hielo", x:735,y:380,angle:90,width:100,height:25},
 				{type:"block", name:"hielo", x:715,y:380,angle:90,width:100,height:25},
@@ -518,6 +524,8 @@ var levels = {
 				{type:"villain", name:"esqueleto_de_frente",x:665,y:405,calories:420},
 				{type:"villain", name:"creeper",x:755,y:400,calories:150},
 				{type:"villain", name:"baby_zombie",x:720,y:260,calories:150},
+
+				{type:"coin", name:"diamante",x:715,y:100, isStatic:true},
 
 				{type:"hero", name:"gato_de_pie",x:30,y:415},
 				{type:"hero", name:"gato_galleta",x:80,y:405},
@@ -545,9 +553,12 @@ var levels = {
 				{type:"block", name:"arena", x:710,y:270,angle:90,width:100,height:25},
 				{type:"block", name:"maderanormal", x:760,y:200,width:125,height:25},
 				
-				{type:"villain", name:"baby_zombie",x:510,y:300,calories:590},
+				{type:"villain", name:"baby_zombie",x:510,y:370,calories:590},
 				{type:"villain", name:"esqueleto",x:630,y:300,calories:420},
 				{type:"villain", name:"enderman",x:760,y:150,calories:150},
+
+				{type:"coin", name:"diamante",x:630,y:200, isStatic:true},
+				{type:"coin", name:"diamante",x:760,y:50, isStatic:true},
 
 				{type:"hero", name:"gato_sentado",x:30,y:415},
 				{type:"hero", name:"gato_donut",x:80,y:405},
@@ -581,6 +592,9 @@ var levels = {
 				{type:"villain", name:"baby_zombie",x:630,y:300,calories:420},
 				{type:"villain", name:"baby_zombie",x:760,y:300,calories:420},
 				{type:"villain", name:"silverfish",x:700,y:150,calories:150},
+
+				{type:"coin", name:"diamante",x:630,y:220, isStatic:true},
+				{type:"coin", name:"diamante",x:760,y:220, isStatic:true},
 
 				{type:"hero", name:"gato_galleta",x:30,y:415},
 				{type:"hero", name:"gato_donut",x:80,y:405},
