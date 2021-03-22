@@ -626,10 +626,8 @@ var levels = {
 	load:function(number){
 	   //Inicializar box2d world cada vez que se carga un nivel
 		box2d.init();
-		console.log("Box2d inicializado");
 		// Declarar un nuevo objeto de nivel actual
 		game.currentLevel = {number:number,hero:[]};
-		console.log("Nivel: "+ game.currentLevel);
 		game.score=0;
 		$('#score').html('Score: '+game.score);
 		game.currentHero = undefined;
@@ -642,21 +640,16 @@ var levels = {
 		game.slingshotImage = loader.loadImage("images/new_slingshot.png");
 		game.slingshotFrontImage = loader.loadImage("images/new_front_slingshot.png");
 
-		console.log("Imágenes del nivel "+number+" cargadas");
-
 		// Cargar todas la entidades
 		for (var i = level.entities.length - 1; i >= 0; i--){	
 			var entity = level.entities[i];
 			entities.create(entity);	
-			console.log("Entidad "+ i + " cargada")
 		};
 
 		  //Llamar a game.start() una vez que los assets se hayan cargado
 	   if(loader.loaded){
-	   		console.log("El juego va a empezar porque loader.loaded = true");
 		   	game.start()
 	   } else {
-	   		console.log("loader.loaded = false");
 		   	loader.onload = game.start;
 	   }
 	}
@@ -726,15 +719,6 @@ var entities = {
 			height:50,
 			friction:0.5,
 			restitution:0.4,	
-		},
-		"sodacan":{
-			shape:"rectangle",
-			fullHealth:80,
-			width:40,
-			height:60,
-			density:1,
-			friction:0.5,
-			restitution:0.7,	
 		},
 		"esqueleto":{
 			shape:"rectangle",
@@ -1103,7 +1087,7 @@ var loader = {
 		loader.loadedCount = 0;
 		loader.totalCount = 0;
 	},
-	resetLoadedCount(){
+	resetLoadedCount:function(){
 		loader.loadedCount = 0;
 	}
 }
